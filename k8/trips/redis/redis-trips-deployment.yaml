@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-trips-deployment
+  labels:
+    app: redis-trips
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: redis-trips
+  template:
+    metadata:
+      labels:
+        app: redis-trips
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: redis-trips
+          image: redis:7-alpine
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: /data
+              name: redis-trips-volume
+      volumes:
+      - name: redis-trips-volume
+        persistentVolumeClaim:
+          claimName: redis-trips-volume-claim

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airports-deployment
+  labels:
+    app: airports
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: airports
+  template:
+    metadata:
+      labels:
+        app: airports
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: airports
+          image: redis:7-alpine
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          env:
+            - name: RABBIT_USER
+              valueFrom:
+                  secretKeyRef:
+                    name: airports-secret
+                    key: rabbit_user
+            - name: RABBIT_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: airports-secret
+                    key: rabbit_password
+            - name: RABBIT_HOST
+              valueFrom:
+                  secretKeyRef:
+                    name: airports-secret
+                    key: rabbit_host
+            - name: RABBIT_PORT
+              valueFrom:
+                  secretKeyRef:
+                    name: airports-secret
+                    key: rabbit_port
+            - name: REDIS_HOST
+              valueFrom:
+                  secretKeyRef:
+                    name: airports-secret
+                    key: redis_host
+            - name: REDIS_PORT
+              valueFrom:
+                  secretKeyRef:
+                    name: airports-secret
+                    key: redis_port                    

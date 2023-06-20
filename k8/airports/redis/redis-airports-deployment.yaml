@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-airports-deployment
+  labels:
+    app: redis-airports
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-airports
+  template:
+    metadata:
+      labels:
+        app: redis-airports
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: redis-airports
+          image: redis:7-alpine
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: /data
+              name: redis-airports-volume
+      volumes:
+      - name: redis-airports-volume
+        persistentVolumeClaim:
+          claimName: redis-airports-volume-claim

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+  labels:
+    app: gateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: gateway
+          image: gateway
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          env:
+            - name: RABBIT_USER
+              valueFrom:
+                  secretKeyRef:
+                    name: gateway-secret
+                    key: rabbit_user
+            - name: RABBIT_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: gateway-secret
+                    key: rabbit_password
+            - name: RABBIT_HOST
+              valueFrom:
+                  secretKeyRef:
+                    name: gateway-secret
+                    key: rabbit_host
+            - name: RABBIT_PORT
+              valueFrom:
+                  secretKeyRef:
+                    name: gateway-secret
+                    key: rabbit_port

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trips-deployment
+  labels:
+    app: trips
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: trips
+  template:
+    metadata:
+      labels:
+        app: trips
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: trips
+          image: trips
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          env:
+            - name: RABBIT_USER
+              valueFrom:
+                  secretKeyRef:
+                    name: trips-secret
+                    key: rabbit_user
+            - name: RABBIT_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: trips-secret
+                    key: rabbit_password
+            - name: RABBIT_HOST
+              valueFrom:
+                  secretKeyRef:
+                    name: trips-secret
+                    key: rabbit_host
+            - name: REDIS_HOST
+              valueFrom:
+                  secretKeyRef:
+                    name: trips-secret
+                    key: redis_host
+            - name: REDIS_PORT
+              valueFrom:
+                  secretKeyRef:
+                    name: trips-secret
+                    key: redis_port
+                    

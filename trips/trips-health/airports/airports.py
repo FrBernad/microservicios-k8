@@ -16,7 +16,6 @@ class AirportsService:
         self.health_check_func = {}
         self.health_check_time = int( time.time() )
 
-
     @rpc
     def ping(self):
         return "Pong!"
