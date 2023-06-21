@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: redis-trips-volume-claim
+  name: redis-trips-pvc
 spec:
-  storageClassName: hostpath
+  storageClassName: redis-trips-pv
   accessModes:
     - ReadWriteOnce
   resources:

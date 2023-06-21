@@ -5,7 +5,7 @@ metadata:
   labels:
     app: redis-trips
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: redis-trips
@@ -27,4 +27,4 @@ spec:
       volumes:
       - name: redis-trips-volume
         persistentVolumeClaim:
-          claimName: redis-trips-volume-claim
+          claimName: redis-trips-pvc

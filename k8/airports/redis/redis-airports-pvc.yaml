@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: redis-airports-volume-claim
+  name: redis-airports-pvc
 spec:
-  storageClassName: hostpath
+  storageClassName: redis-airports-pv
   accessModes:
     - ReadWriteOnce
   resources:

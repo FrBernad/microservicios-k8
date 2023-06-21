@@ -27,4 +27,4 @@ spec:
       volumes:
       - name: redis-airports-volume
         persistentVolumeClaim:
-          claimName: redis-airports-volume-claim
+          claimName: redis-airports-pvc

@@ -18,3 +18,14 @@ El despliegue final debe cumplir con la siguientes características:
 - Se debe elegir el mejor método de despliegue de los pods para cada uno de los servicios.
 - Exponer la API rest por medio de un ClusterPort.
 - El servicio de Redis debe disponer de persistencia. Pueden usar un HostPath o local con las consideraciones de affinity correspondientes.
+
+
+docker build -t airports -f airports/Dockerfile airports
+docker build -t trips -f trips/Dockerfile trips
+docker build -t gateway -f gateway/Dockerfile gateway
+
+kind create cluster --config kind-config/cluster-config.yaml --name ms 
+
+kind load docker-image airports --name ms
+kind load docker-image trips --name ms
+kind load docker-image gateway --name ms
