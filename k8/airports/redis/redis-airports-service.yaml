@@ -9,7 +9,6 @@ spec:
   ports:
     - port: 6379
       targetPort: 6379
-      name: http
       protocol: TCP
   selector:
     app: redis-airports

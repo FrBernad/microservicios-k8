@@ -21,3 +21,17 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5672
+          readinessProbe:
+            exec:
+              command:
+              - rabbitmq-diagnostics
+              - check_running
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            exec:
+              command:
+              - rabbitmq-diagnostics
+              - check_running
+            initialDelaySeconds: 7
+            periodSeconds: 5

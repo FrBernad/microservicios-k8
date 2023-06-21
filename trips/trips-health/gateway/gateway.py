@@ -39,7 +39,7 @@ class GatewayService:
 
     health_check_func = {
         'trips': check_trips,
-        'gateways': check_airports
+        'airports': check_airports
     }
 
     @http('GET', '/bum')

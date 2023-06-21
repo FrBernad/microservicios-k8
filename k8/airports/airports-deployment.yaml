@@ -15,9 +15,13 @@ spec:
         app: airports
     spec:
       restartPolicy: Always
+      # initContainers:
+      # - name: wait-dependencies
+      #   image: busybox:1.35
+      #   command: ['sh', '-c', "sleep 10"]
       containers:
         - name: airports
-          image: redis:7-alpine
+          image: airports
           imagePullPolicy: Never
           ports:
             - containerPort: 8000
@@ -29,14 +33,14 @@ spec:
                     key: rabbit_user
             - name: RABBIT_PASSWORD
               valueFrom:
-                  secretKeyRef:
-                    name: airports-secret
-                    key: rabbit_password
+                secretKeyRef:
+                  name: airports-secret
+                  key: rabbit_password
             - name: RABBIT_HOST
               valueFrom:
-                  secretKeyRef:
-                    name: airports-secret
-                    key: rabbit_host
+                secretKeyRef:
+                  name: airports-secret
+                  key: rabbit_host
             - name: RABBIT_PORT
               valueFrom:
                   secretKeyRef:
@@ -51,4 +55,4 @@ spec:
               valueFrom:
                   secretKeyRef:
                     name: airports-secret
-                    key: redis_port                    
+                    key: redis_port                

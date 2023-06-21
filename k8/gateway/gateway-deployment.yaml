@@ -15,6 +15,10 @@ spec:
         app: gateway
     spec:
       restartPolicy: Always
+      # initContainers:
+      #   - name: wait-dependencies
+      #     image: busybox:1.35
+      #     command: ['sh', '-c', "sleep 15"]
       containers:
         - name: gateway
           image: gateway
@@ -24,21 +28,31 @@ spec:
           env:
             - name: RABBIT_USER
               valueFrom:
-                  secretKeyRef:
-                    name: gateway-secret
-                    key: rabbit_user
+                secretKeyRef:
+                  name: gateway-secret
+                  key: rabbit_user
             - name: RABBIT_PASSWORD
               valueFrom:
-                  secretKeyRef:
-                    name: gateway-secret
-                    key: rabbit_password
+                secretKeyRef:
+                  name: gateway-secret
+                  key: rabbit_password
             - name: RABBIT_HOST
               valueFrom:
-                  secretKeyRef:
-                    name: gateway-secret
-                    key: rabbit_host
+                secretKeyRef:
+                  name: gateway-secret
+                  key: rabbit_host
             - name: RABBIT_PORT
               valueFrom:
-                  secretKeyRef:
+                secretKeyRef:
+                  name: gateway-secret
+                  key: rabbit_port
+            - name: AIRPORTS_HEALTH_CHECK
+              valueFrom:
+                secretKeyRef:
                     name: gateway-secret
-                    key: rabbit_port
+                    key: airports_health_check
+            - name: TRIPS_HEALTH_CHECK
+              valueFrom:
+                secretKeyRef:
+                  name: gateway-secret
+                  key: trips_health_check

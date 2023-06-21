@@ -104,8 +104,6 @@ services:
       - ./healthcheck/config.yaml:/app/config.yaml:z 
     restart: always
 
-     
-    
 networks:
   airports:
     driver: bridge

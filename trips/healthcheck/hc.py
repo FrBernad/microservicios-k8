@@ -1,4 +1,4 @@
-from flask import Flask
+./trips/trips-health/from flask import Flask
 from healthcheck import HealthCheck, EnvironmentDump
 import redis
 from redis.exceptions import TimeoutError as RedisTimeoutError

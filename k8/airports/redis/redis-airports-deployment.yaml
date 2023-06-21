@@ -24,7 +24,21 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: redis-airports-volume
+          readinessProbe:
+            exec:
+              command:
+              - redis-cli
+              - ping
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            exec:
+              command:
+              - redis-cli
+              - ping
+            initialDelaySeconds: 7
+            periodSeconds: 5
       volumes:
       - name: redis-airports-volume
         persistentVolumeClaim:
-          claimName: redis-airports-pvc
+          claimName: redis-airports-pvc  
