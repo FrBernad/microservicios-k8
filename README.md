@@ -22,9 +22,9 @@ El despliegue final debe cumplir con la siguientes características:
 FIXME: subir imagenes a un repo para poder descargarlas en helm. Crear helm chart
 
 
-docker build -t airports -f ./trips/trips-health/airports/Dockerfile ./trips/trips-health/
-docker build -t trips -f ./trips/trips-health/trips/Dockerfile ./trips/trips-health/
-docker build -t gateway -f ./trips/trips-health/gateway/Dockerfile ./trips/trips-health/
+docker build -t airports -f ./trips/trips-health/airports/Dockerfile ./trips/trips-health/airports
+docker build -t trips -f ./trips/trips-health/trips/Dockerfile ./trips/trips-health/trips
+docker build -t gateway -f ./trips/trips-health/gateway/Dockerfile ./trips/trips-health/gatre
 
 kind create cluster --config kind-config/cluster-config.yaml --name ms 
 
@@ -53,3 +53,6 @@ El pedido devolverá el ID asignado al viaje. Este ID podrá ser utilizado en co
 
 
 curl 172.31.0.3:30001/trip/<TRIP_ID>
+
+helm install trips-app ./k8
+helm uninstall trips-app
