@@ -17,8 +17,8 @@ spec:
       restartPolicy: Always
       containers:
         - name: gateway
-          image: gateway
-          imagePullPolicy: Never
+          image: quickcart/gateway:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           env:

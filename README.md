@@ -21,10 +21,9 @@ El despliegue final debe cumplir con la siguientes características:
 
 FIXME: subir imagenes a un repo para poder descargarlas en helm. Crear helm chart
 
-
 docker build -t airports -f ./trips/trips-health/airports/Dockerfile ./trips/trips-health/airports
 docker build -t trips -f ./trips/trips-health/trips/Dockerfile ./trips/trips-health/trips
-docker build -t gateway -f ./trips/trips-health/gateway/Dockerfile ./trips/trips-health/gatre
+docker build -t gateway -f ./trips/trips-health/gateway/Dockerfile ./trips/trips-health/gateway
 
 kind create cluster --config kind-config/cluster-config.yaml --name ms 
 
@@ -51,8 +50,24 @@ curl --header "Content-Type: application/json" \
 
 El pedido devolverá el ID asignado al viaje. Este ID podrá ser utilizado en consultas posteriores como:
 
-
 curl 172.31.0.3:30001/trip/<TRIP_ID>
 
 helm install trips-app ./k8
 helm uninstall trips-app
+
+Build de imágenes
+docker image tag "airports" "airports:latest"
+docker image tag "trips" "trips:latest"
+docker image tag "gateway" "gateway:latest"
+
+
+docker image tag "airports" "docker.io/quickcart/airports:latest"
+docker image tag "airports" "docker.io/quickcart/airports"
+docker image tag "trips" "docker.io/quickcart/trips:latest"
+docker image tag "trips" "docker.io/quickcart/trips"
+docker image tag "gateway" "docker.io/quickcart/gateway:latest"
+docker image tag "gateway" "docker.io/quickcart/gateway"
+
+docker push docker.io/quickcart/airports:latest
+docker push docker.io/quickcart/trips:latest
+docker push docker.io/quickcart/gateway:latest

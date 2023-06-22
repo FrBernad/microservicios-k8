@@ -18,7 +18,7 @@ class TripsService:
     log = StructlogDependency()
 
     def __init__(self):
-        self.health_check_func = {}
+        self.health_check_func = {'redis': self.check_redis}
         self.health_check_time = int( time.time() )
 
     @rpc
@@ -44,6 +44,7 @@ class TripsService:
         })
         return trip_id
 
+
     @http('GET', '/health')
     def health_check(self, request):
         now = int(time.time())
@@ -59,3 +60,14 @@ class TripsService:
         message.insert(0, f"{self.name} status: {'OK' if healthy else 'Error'}\nDependencies:")
 
         return (200 if healthy else 500 ) , '\n'.join(message)
+    
+    def check_redis(self):
+        status = True
+        reason = "redis ok"
+        try:
+            self.redis.ping()
+        except:
+            reason = "redis error"
+            status = False
+        
+        return status, reason

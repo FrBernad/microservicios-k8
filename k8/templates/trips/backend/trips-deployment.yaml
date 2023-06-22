@@ -1,57 +1,52 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: airports-deployment
+  name: trips-deployment
   labels:
-    app: airports
+    app: trips
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: airports
+      app: trips
   template:
     metadata:
       labels:
-        app: airports
+        app: trips
     spec:
       restartPolicy: Always
       containers:
-        - name: airports
-          image: airports
-          imagePullPolicy: Never
+        - name: trips
+          image: quickcart/trips:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           env:
             - name: RABBIT_USER
               valueFrom:
                   secretKeyRef:
-                    name: airports-secret
+                    name: trips-secret
                     key: rabbit_user
             - name: RABBIT_PASSWORD
               valueFrom:
-                secretKeyRef:
-                  name: airports-secret
-                  key: rabbit_password
+                  secretKeyRef:
+                    name: trips-secret
+                    key: rabbit_password
             - name: RABBIT_HOST
               valueFrom:
-                secretKeyRef:
-                  name: airports-secret
-                  key: rabbit_host
-            - name: RABBIT_PORT
-              valueFrom:
                   secretKeyRef:
-                    name: airports-secret
-                    key: rabbit_port
+                    name: trips-secret
+                    key: rabbit_host
             - name: REDIS_HOST
               valueFrom:
                   secretKeyRef:
-                    name: airports-secret
+                    name: trips-secret
                     key: redis_host
             - name: REDIS_PORT
               valueFrom:
                   secretKeyRef:
-                    name: airports-secret
-                    key: redis_port                
+                    name: trips-secret
+                    key: redis_port
           livenessProbe:
             httpGet:
               path: /health
@@ -64,3 +59,4 @@ spec:
               port: 8000
             initialDelaySeconds: 5
             periodSeconds: 10
+                    
