@@ -18,7 +18,7 @@ spec:
       containers:
         - name: airports
           image: quickcart/airports:latest
-          imagePullPolicy: always
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           env:
@@ -56,11 +56,11 @@ spec:
             httpGet:
               path: /health
               port: 8000
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
             periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /health
               port: 8000
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
             periodSeconds: 10

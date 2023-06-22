@@ -1,21 +1,18 @@
 import uuid
-import time 
+import time
 
 from nameko.rpc import rpc
 from nameko_redis import Redis
 from nameko.web.handlers import http
 
-HEALTH_CHECK_PERIOD = 60 # in seconds
-
 
 class AirportsService:
     name = "airports_service"
 
-    redis = Redis('development')
+    redis = Redis("development")
 
     def __init__(self):
-        self.health_check_func = {'redis': self.check_redis}
-        self.health_check_time = int( time.time() )
+        self.health_check_func = {"redis": self.check_redis}
 
     @rpc
     def ping(self):
@@ -32,22 +29,24 @@ class AirportsService:
         self.redis.set(airport_id, airport)
         return airport_id
 
-    @http('GET', '/health')
+    @http("GET", "/health")
     def health_check(self, request):
-        now = int(time.time())
         healthy = True
         message = []
-        if (now - self.health_check_time) > HEALTH_CHECK_PERIOD:
-            for k,check in self.health_check_func.items():
-                func_status_ok , func_message = check(self)
-                message.append( f'{k} status: {"OK" if func_status_ok else "Error. "+func_message}' )
-                healthy &= func_status_ok
-            self.health_check_time = now
 
-        message.insert(0, f"{self.name} status: {'OK' if healthy else 'Error'}\nDependencies:")
+        for k, check in self.health_check_func.items():
+            func_status_ok, func_message = check()
+            message.append(
+                f'{k} status: {"OK" if func_status_ok else "Error. "+func_message}'
+            )
+            healthy &= func_status_ok
 
-        return (200 if healthy else 500 ) , '\n'.join(message)
-    
+        message.insert(
+            0, f"{self.name} status: {'OK' if healthy else 'Error'}\nDependencies:"
+        )
+
+        return (200 if healthy else 500), "\n".join(message)
+
     def check_redis(self):
         status = True
         reason = "redis ok"
@@ -56,5 +55,5 @@ class AirportsService:
         except:
             reason = "redis error"
             status = False
-        
+
         return status, reason

@@ -8,8 +8,6 @@ from nameko.web.handlers import http
 from nameko_tracer import Tracer
 from nameko_structlog import StructlogDependency
 
-HEALTH_CHECK_PERIOD = 60 # in seconds
-
 def _check_get_200( url ):
     status = True
     message = 'Ok'
@@ -21,11 +19,11 @@ def _check_get_200( url ):
             message = 'Unknown'
     return status , message 
 
-def check_airports( instance ):
+def check_airports():
     return _check_get_200( os.environ.get( 'AIRPORTS_HEALTH_CHECK' ) )
 
 
-def check_trips( instance ):
+def check_trips():
     return _check_get_200( os.environ.get( 'TRIPS_HEALTH_CHECK' ) )
 
 class GatewayService:
@@ -96,7 +94,7 @@ class GatewayService:
         message = []
 
         for k,check in self.health_check_func.items():
-            func_status_ok , func_message = check(self)
+            func_status_ok , func_message = check()
             message.append( f'    {k} status: {"OK" if func_status_ok else "Error. "+func_message}' )
             healthy &= func_status_ok
         message.insert(0, f"{self.name} status: {'OK' if healthy else 'Error'}\nDependencies:")

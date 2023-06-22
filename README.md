@@ -56,21 +56,22 @@ helm install trips-app ./k8
 helm uninstall trips-app
 
 Build de imágenes
+
+https://docs.docker.com/build/building/multi-platform/
+docker buildx ls            
+docker buildx create --name multi-os-driver --driver docker-container --bootstrap --use
+
+docker buildx build --platform linux/amd64,linux/arm64 -t docker.io/quickcart/airports:latest -f ./trips/airports/Dockerfile ./trips/airports --push 
+docker buildx build --platform linux/amd64,linux/arm64 -t "docker.io/quickcart/trips:latest" -f ./trips/trips/Dockerfile ./trips/trips --push 
+docker buildx build --platform linux/amd64,linux/arm64 -t "docker.io/quickcart/gateway:latest" -f ./trips/gateway/Dockerfile ./trips/gateway --push 
+
 docker image tag "airports" "airports:latest"
 docker image tag "trips" "trips:latest"
 docker image tag "gateway" "gateway:latest"
 
-
-docker build -t airports -f ./trips/airports/Dockerfile ./trips/airports
-docker build -t trips -f ./trips/trips/Dockerfile ./trips/trips
-docker build -t gateway -f ./trips/gateway/Dockerfile ./trips/gateway
 docker image tag "airports" "docker.io/quickcart/airports:latest"
 docker image tag "airports" "docker.io/quickcart/airports"
 docker image tag "trips" "docker.io/quickcart/trips:latest"
 docker image tag "trips" "docker.io/quickcart/trips"
 docker image tag "gateway" "docker.io/quickcart/gateway:latest"
 docker image tag "gateway" "docker.io/quickcart/gateway"
-
-docker push docker.io/quickcart/airports:latest
-docker push docker.io/quickcart/trips:latest
-docker push docker.io/quickcart/gateway:latest

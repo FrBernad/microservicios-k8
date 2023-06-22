@@ -7,19 +7,17 @@ from nameko.web.handlers import http
 from nameko_tracer import Tracer
 from nameko_structlog import StructlogDependency
 
-HEALTH_CHECK_PERIOD = 60 # in seconds
 
 class TripsService:
     name = "trips_service"
 
-    redis = Redis('development')
+    redis = Redis("development")
 
     tracer = Tracer()
     log = StructlogDependency()
 
     def __init__(self):
-        self.health_check_func = {'redis': self.check_redis}
-        self.health_check_time = int( time.time() )
+        self.health_check_func = {"redis": self.check_redis}
 
     @rpc
     def ping(self):
@@ -38,29 +36,26 @@ class TripsService:
     @rpc
     def create(self, airport_from_id, airport_to_id):
         trip_id = uuid.uuid4().hex
-        self.redis.hmset(trip_id, {
-            "from": airport_from_id,
-            "to": airport_to_id
-        })
+        self.redis.hmset(trip_id, {"from": airport_from_id, "to": airport_to_id})
         return trip_id
 
-
-    @http('GET', '/health')
+    @http("GET", "/health")
     def health_check(self, request):
-        now = int(time.time())
         healthy = True
         message = []
-        if (now - self.health_check_time) > HEALTH_CHECK_PERIOD:
-            for k,check in self.health_check_func.items():
-                func_status_ok , func_message = check(self)
-                message.append( f'{k} status: {"OK" if func_status_ok else "Error. "+func_message}' )
-                healthy &= func_status_ok
-            self.health_check_time = now
+        for k, check in self.health_check_func.items():
+            func_status_ok, func_message = check()
+            message.append(
+                f'{k} status: {"OK" if func_status_ok else "Error. "+func_message}'
+            )
+            healthy &= func_status_ok
 
-        message.insert(0, f"{self.name} status: {'OK' if healthy else 'Error'}\nDependencies:")
+        message.insert(
+            0, f"{self.name} status: {'OK' if healthy else 'Error'}\nDependencies:"
+        )
 
-        return (200 if healthy else 500 ) , '\n'.join(message)
-    
+        return (200 if healthy else 500), "\n".join(message)
+
     def check_redis(self):
         status = True
         reason = "redis ok"
@@ -69,5 +64,5 @@ class TripsService:
         except:
             reason = "redis error"
             status = False
-        
+
         return status, reason
