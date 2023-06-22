@@ -19,6 +19,8 @@ El despliegue final debe cumplir con la siguientes características:
 - Exponer la API rest por medio de un ClusterPort.
 - El servicio de Redis debe disponer de persistencia. Pueden usar un HostPath o local con las consideraciones de affinity correspondientes.
 
+FIXME: subir imagenes a un repo para poder descargarlas en helm. Crear helm chart
+
 
 docker build -t airports -f ./trips/trips-health/airports/Dockerfile ./trips/trips-health/
 docker build -t trips -f ./trips/trips-health/trips/Dockerfile ./trips/trips-health/
@@ -41,7 +43,6 @@ curl --request GET \
   172.31.0.3:30001/airport/ce822be9bebf4c9bbe48f5591087a047
 
 TRIPS
-
 
 curl --header "Content-Type: application/json" \
   --request POST \

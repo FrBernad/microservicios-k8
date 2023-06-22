@@ -27,11 +27,11 @@ spec:
               - rabbitmq-diagnostics
               - check_running
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 10
           livenessProbe:
             exec:
               command:
               - rabbitmq-diagnostics
               - check_running
-            initialDelaySeconds: 7
-            periodSeconds: 5
+            initialDelaySeconds: 5
+            periodSeconds: 10

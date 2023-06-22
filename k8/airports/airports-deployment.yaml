@@ -15,10 +15,6 @@ spec:
         app: airports
     spec:
       restartPolicy: Always
-      # initContainers:
-      # - name: wait-dependencies
-      #   image: busybox:1.35
-      #   command: ['sh', '-c', "sleep 10"]
       containers:
         - name: airports
           image: airports
@@ -56,3 +52,15 @@ spec:
                   secretKeyRef:
                     name: airports-secret
                     key: redis_port                
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10

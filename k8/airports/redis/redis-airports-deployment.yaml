@@ -30,14 +30,14 @@ spec:
               - redis-cli
               - ping
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 10
           livenessProbe:
             exec:
               command:
               - redis-cli
               - ping
-            initialDelaySeconds: 7
-            periodSeconds: 5
+            initialDelaySeconds: 5
+            periodSeconds: 10
       volumes:
       - name: redis-airports-volume
         persistentVolumeClaim:
