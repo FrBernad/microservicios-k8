@@ -61,6 +61,9 @@ docker image tag "trips" "trips:latest"
 docker image tag "gateway" "gateway:latest"
 
 
+docker build -t airports -f ./trips/airports/Dockerfile ./trips/airports
+docker build -t trips -f ./trips/trips/Dockerfile ./trips/trips
+docker build -t gateway -f ./trips/gateway/Dockerfile ./trips/gateway
 docker image tag "airports" "docker.io/quickcart/airports:latest"
 docker image tag "airports" "docker.io/quickcart/airports"
 docker image tag "trips" "docker.io/quickcart/trips:latest"
