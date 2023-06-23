@@ -100,4 +100,4 @@ class GatewayService:
         message.insert(0, f"{self.name} status: {'OK' if healthy else 'Error'}\nDependencies:")
         message.append(f'Last update: {time.strftime("%a, %d %b %Y %H:%M:%S %Z", time.gmtime() )}')
 
-        return (200 if healthy else 500 ) , '\n'.join(message)
+        return (200 if healthy else 500) , '\n'.join(message)

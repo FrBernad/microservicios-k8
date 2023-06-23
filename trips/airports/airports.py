@@ -1,5 +1,4 @@
 import uuid
-import time
 
 from nameko.rpc import rpc
 from nameko_redis import Redis

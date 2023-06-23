@@ -19,7 +19,14 @@ El despliegue final debe cumplir con la siguientes características:
 - Exponer la API rest por medio de un ClusterPort.
 - El servicio de Redis debe disponer de persistencia. Pueden usar un HostPath o local con las consideraciones de affinity correspondientes.
 
-FIXME: subir imagenes a un repo para poder descargarlas en helm. Crear helm chart
+FIXME: 
+- Subir imagenes a un repo para poder descargarlas en helm. 
+- Crear helm chart.
+- Ver healtheck con mq.
+- Probar en otra compu q a agus no le levanta
+https://github.com/docker-library/rabbitmq/pull/174#issuecomment-452002696
+https://devops.stackexchange.com/questions/12092/docker-compose-healthcheck-for-rabbitmq
+
 
 docker build -t airports -f ./trips/trips-health/airports/Dockerfile ./trips/trips-health/airports
 docker build -t trips -f ./trips/trips-health/trips/Dockerfile ./trips/trips-health/trips
