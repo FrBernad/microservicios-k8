@@ -16,5 +16,5 @@ El despliegue final debe cumplir con la siguientes características:
 - Debe incluir redundancia de pods para los servicios basados en Python.
 - Todos los archivos de configuración deben ser definidos usando ConfigMap o Secrets.
 - Se debe elegir el mejor método de despliegue de los pods para cada uno de los servicios.
-- Exponer la API rest por medio de un ClusterPort.
+- Exponer la API rest por medio de un NodePort.
 - El servicio de Redis debe disponer de persistencia. Pueden usar un HostPath o local con las consideraciones de affinity correspondientes.
